@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id      String      @id @default(uuid())
+  name    String
+  address String
+  phone   String
+  email   String
+  status  OrderStatus @default(PENDING)
+
+  items OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OrderItem {
+  id       String @id @default(uuid())
+  order    Order  @relation(fields: [orderId], references: [id])
+  orderId  String
+  wine     Wine   @relation(fields: [wineId], references: [id])
+  wineId   String
+  quantity Int
+}
+
+model Wine {
+  id           String @id @default(uuid())
+  name         String
+  description  String
+  country      String
+  color        String
+  style        String
+  grapeVariety String
+  region       String
+  volume       String
+  alkohol      String
+  vintage      Int
+  price        Int
+  photos       String
+
+  orderItems OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
