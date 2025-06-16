@@ -1,10 +1,15 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe, Post, Body, UploadedFiles, UseInterceptors, Delete } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import * as path from 'path';
+import * as fs from 'fs/promises';
+import { extname } from 'path';
 import { WinesService } from './wines.service';
 import { CreateWineDTO } from './dtos/create-wine.dto';
+import { NotFoundException } from '@nestjs/common';
 
 @Controller('wines')
 export class WinesController {
-
   constructor(private winesService: WinesService) {}
 
   @Get('/')
@@ -13,13 +18,61 @@ export class WinesController {
   }
 
   @Get('/:id')
-  getById(@Param('id') id: string) {
-    return this.winesService.getById(id);
+  getById(@Param('id', new ParseUUIDPipe()) id: string) {
+    const wine = this.winesService.getById(id);
+    if (!wine) {
+      throw new NotFoundException('Wine not found');
+    }
+    return wine;
   }
 
   @Post('/')
-  create(@Body() wineData: CreateWineDTO) {
-    return this.winesService.create(wineData);
+  @UseInterceptors(
+    FilesInterceptor('photos', 10, {
+      storage: diskStorage({
+        destination: './public/uploads/photos',
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 100);
+          const ext = extname(file.originalname);
+          cb(null, `photo-${uniqueSuffix}${ext}`);
+        },
+      }),
+      limits: {
+        fileSize: 200 * 1024
+      },
+    }),
+  )
+  async create(
+    @Body() wineData: CreateWineDTO,
+    @UploadedFiles() files: Express.Multer.File[],
+  ) {
+    const photos = files.map(file => file.filename).join(','); 
+    return this.winesService.create({ ...wineData, photos });
   }
 
+  @Delete('/:id')
+  async deleteById(@Param('id', new ParseUUIDPipe) id: string) {
+    const wine = this.winesService.getById(id);
+    if (!wine) {
+      throw new NotFoundException('Wine not found');
+    }
+
+    if (wine.photos) {
+      const photosArray = wine.photos.split(',');
+      for (const filename of photosArray) {
+        const filePath = path.join(process.cwd(), 'public', 'uploads', 'photos', filename.trim());
+        try {
+          await fs.unlink(filePath);
+        } catch (err) {
+          console.log(`Failed to delete file ${filePath}: ${err.message}`);
+        }
+      }
+    }
+
+    this.winesService.deleteById(id);
+    return { success: true };
+  }
 }
+
+
+

@@ -16,5 +16,9 @@ export class WinesService {
     const newWine = { ...wineData, id: uuidv4()};
     db.wines.push(newWine);
     return newWine;
+  } 
+
+  deleteById(id: Wine['id']): void {
+    db.wines = db.wines.filter((w) => w.id !== id);
   }
 }

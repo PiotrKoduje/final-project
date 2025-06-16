@@ -11,6 +11,7 @@ export interface Wine {
   alkohol: string;
   vintage: string;
   price: number;
+  photos?: string;
 }
 
 type DBData = {
