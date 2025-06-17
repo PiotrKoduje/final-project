@@ -1,24 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { db, Wine } from './../db';
 import { v4 as uuidv4 } from 'uuid';
+import { PrismaService } from 'src/shared/services/prisma.service';
+import { Wine } from '@prisma/client';
+
 
 @Injectable()
 export class WinesService {
-  getAll(): Wine[] {
-    return db.wines;
+  constructor(private prismaService: PrismaService) {}
+
+  getAll(): Promise<Wine[]> {
+    return this.prismaService.wine.findMany();
   }
 
-  getById(id: Wine['id']): Wine | undefined {
-    return db.wines.find((w) => w.id === id);
+  getById(id: Wine['id']): Promise<Wine | null> {
+    return this.prismaService.wine.findUnique({
+      where: { id }
+    });
   }
 
-  create(wineData: Omit<Wine, 'id'>): Wine {
+  create(wineData: Omit<Wine, 'id' | 'createdAt' | 'updatedAt'>): Promise<Wine> {
     const newWine = { ...wineData, id: uuidv4()};
-    db.wines.push(newWine);
-    return newWine;
+    return this.prismaService.wine.create({
+      data: newWine
+    });
   } 
 
-  deleteById(id: Wine['id']): void {
-    db.wines = db.wines.filter((w) => w.id !== id);
+  deleteById(id: Wine['id']): Promise<Wine> {
+    return this.prismaService.wine.delete({
+      where: { id }
+    });
   }
 }

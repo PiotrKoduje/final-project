@@ -18,8 +18,8 @@ export class WinesController {
   }
 
   @Get('/:id')
-  getById(@Param('id', new ParseUUIDPipe()) id: string) {
-    const wine = this.winesService.getById(id);
+  async getById(@Param('id', new ParseUUIDPipe()) id: string) {
+    const wine = await this.winesService.getById(id);
     if (!wine) {
       throw new NotFoundException('Wine not found');
     }
@@ -52,7 +52,7 @@ export class WinesController {
 
   @Delete('/:id')
   async deleteById(@Param('id', new ParseUUIDPipe) id: string) {
-    const wine = this.winesService.getById(id);
+    const wine = await this.winesService.getById(id);
     if (!wine) {
       throw new NotFoundException('Wine not found');
     }
@@ -69,8 +69,7 @@ export class WinesController {
       }
     }
 
-    this.winesService.deleteById(id);
-    return { success: true };
+    return this.winesService.deleteById(id);
   }
 }
 

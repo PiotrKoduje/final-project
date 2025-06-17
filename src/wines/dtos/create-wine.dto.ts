@@ -60,7 +60,7 @@ export class CreateWineDTO {
   @IsInt()
   @Min(1800)
   @Max(currentYear)
-  vintage: string;
+  vintage: number;
 
   @IsNotEmpty()
   @Type(() => Number)
@@ -68,5 +68,5 @@ export class CreateWineDTO {
   @Min(0)
   price: number;
 
-  photos?: string;
+  photos: string;
 };

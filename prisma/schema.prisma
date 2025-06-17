@@ -25,18 +25,18 @@ model Order {
 }
 
 model OrderItem {
-  id       String @id @default(uuid())
-  order    Order  @relation(fields: [orderId], references: [id])
-  orderId  String
-  wine     Wine   @relation(fields: [wineId], references: [id])
-  wineId   String
+  id       String  @id @default(uuid())
+  order    Order?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId  String?
+  wine     Wine?   @relation(fields: [wineId], references: [id], onDelete: SetNull)
+  wineId   String?
   quantity Int
 }
 
 model Wine {
   id           String @id @default(uuid())
   name         String
-  description  String
+  description  String @db.Text
   country      String
   color        String
   style        String
