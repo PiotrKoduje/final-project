@@ -12,6 +12,14 @@ export class WinesService {
     return this.prismaService.wine.findMany();
   }
 
+  getByCountry(country: string): Promise<Wine[]> {
+    return this.prismaService.wine.findMany({
+      where: {
+        country: country
+      }
+    });
+  }
+
   getById(id: Wine['id']): Promise<Wine | null> {
     return this.prismaService.wine.findUnique({
       where: { id }
@@ -24,10 +32,10 @@ export class WinesService {
       data: newWine
     });
   } 
-
-  deleteById(id: Wine['id']): Promise<Wine> {
-    return this.prismaService.wine.delete({
-      where: { id }
-    });
-  }
+  // FUTURE FEATURE
+  // deleteById(id: Wine['id']): Promise<Wine> {
+  //   return this.prismaService.wine.delete({
+  //     where: { id }
+  //   });
+  // }
 }

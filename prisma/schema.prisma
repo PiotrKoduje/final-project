@@ -11,12 +11,13 @@ datasource db {
 }
 
 model Order {
-  id      String      @id @default(uuid())
-  name    String
-  address String
-  phone   String
-  email   String
-  status  OrderStatus @default(PENDING)
+  id        String      @id @default(uuid())
+  name      String
+  address   String
+  phone     String
+  email     String
+  totalCost Float
+  status    OrderStatus @default(PENDING)
 
   items OrderItem[]
 
@@ -25,12 +26,14 @@ model Order {
 }
 
 model OrderItem {
-  id       String  @id @default(uuid())
-  order    Order?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId  String?
-  wine     Wine?   @relation(fields: [wineId], references: [id], onDelete: SetNull)
-  wineId   String?
-  quantity Int
+  id             String  @id @default(uuid())
+  order          Order?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId        String?
+  wine           Wine?   @relation(fields: [wineId], references: [id], onDelete: SetNull)
+  wineId         String?
+  quantity       Int
+  infoFromClient String  @default("")
+  packAsGift     Boolean @default(false)
 }
 
 model Wine {

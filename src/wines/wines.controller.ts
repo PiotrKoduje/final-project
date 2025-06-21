@@ -1,19 +1,20 @@
-import { Controller, Get, Param, ParseUUIDPipe, Post, Body, UploadedFiles, UseInterceptors, Delete } from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe, Post, Body, UploadedFiles, UseInterceptors, Delete, UseFilters } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import * as path from 'path';
-import * as fs from 'fs/promises';
+// import * as path from 'path'; for deleteById
+// import * as fs from 'fs/promises'; for deleteById
 import { extname } from 'path';
 import { WinesService } from './wines.service';
 import { CreateWineDTO } from './dtos/create-wine.dto';
 import { NotFoundException } from '@nestjs/common';
+import { FileCleanupExceptionFilter } from 'src/shared/filters/cleanupFilesException.filter';
 
 @Controller('wines')
 export class WinesController {
   constructor(private winesService: WinesService) {}
 
   @Get('/')
-  getAll() {
+  async getAll() {
     return this.winesService.getAll();
   }
 
@@ -23,10 +24,23 @@ export class WinesController {
     if (!wine) {
       throw new NotFoundException('Wine not found');
     }
+    
     return wine;
   }
 
+  @Get('/country/:country')
+  async getByCountry(@Param('country') country: string) {
+    const wines = await this.winesService.getByCountry(country);
+
+    if (!wines || wines.length === 0) {
+      throw new NotFoundException(`No wines found for ${country}`);
+    }
+
+    return wines;
+  }
+
   @Post('/')
+  @UseFilters(FileCleanupExceptionFilter)
   @UseInterceptors(
     FilesInterceptor('photos', 10, {
       storage: diskStorage({
@@ -38,7 +52,7 @@ export class WinesController {
         },
       }),
       limits: {
-        fileSize: 200 * 1024
+        fileSize: 300 * 1024
       },
     }),
   )
@@ -47,31 +61,31 @@ export class WinesController {
     @UploadedFiles() files: Express.Multer.File[],
   ) {
     const photos = files.map(file => file.filename).join(','); 
-    return this.winesService.create({ ...wineData, photos });
+    return await this.winesService.create({ ...wineData, photos });
   }
+  // FUTURE FEATURE
+  // @Delete('/:id')
+  // async deleteById(@Param('id', new ParseUUIDPipe) id: string) {
+  //   const wine = await this.winesService.getById(id);
+  //   if (!wine) {
+  //     throw new NotFoundException('Wine not found');
+  //   }
 
-  @Delete('/:id')
-  async deleteById(@Param('id', new ParseUUIDPipe) id: string) {
-    const wine = await this.winesService.getById(id);
-    if (!wine) {
-      throw new NotFoundException('Wine not found');
-    }
+  //   if (wine.photos) {
+  //     const photosArray = wine.photos.split(',');
+  //     for (const filename of photosArray) {
+  //       const filePath = path.join(process.cwd(), 'public', 'uploads', 'photos', filename.trim());
+  //       try {
+  //         await fs.unlink(filePath);
+  //       } catch (err) {
+  //         console.log(`Failed to delete file ${filePath}: ${err.message}`);
+  //       }
+  //     }
+  //   }
 
-    if (wine.photos) {
-      const photosArray = wine.photos.split(',');
-      for (const filename of photosArray) {
-        const filePath = path.join(process.cwd(), 'public', 'uploads', 'photos', filename.trim());
-        try {
-          await fs.unlink(filePath);
-        } catch (err) {
-          console.log(`Failed to delete file ${filePath}: ${err.message}`);
-        }
-      }
-    }
-
-    return this.winesService.deleteById(id);
-  }
-}
+  //   return this.winesService.deleteById(id);
+  // }
+ }
 
 
 
