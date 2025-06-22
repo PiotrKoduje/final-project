@@ -10,6 +10,6 @@ async function bootstrap() {
   app.use('/public', express.static(join(__dirname, '..', 'public')));
   app.setGlobalPrefix('api');
   await app.enableShutdownHooks();
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 4000);
 }
 bootstrap();
