@@ -11,11 +11,4 @@ import { OrdersModule } from './orders/orders.module';
   providers: [AppService],
 })
 
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(cors()).forRoutes({
-      path: '/api/*path',
-      method: RequestMethod.ALL
-    });
-  }
-}
+export class AppModule  {}
