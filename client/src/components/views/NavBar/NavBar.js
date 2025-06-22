@@ -23,7 +23,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <nav className="bg-primary text-white rounded-md mb-4 px-4 py-3">
+    <nav className="bg-primary text-white rounded-md mb-4 my-4 px-4 py-3">
       <div className="max-w-screen-xl mx-auto flex items-center justify-between flex-wrap">
         <div className="text-lg font-semibold text-secondary flex items-center gap-2">
         <LuWine className="w-6 h-6" />
