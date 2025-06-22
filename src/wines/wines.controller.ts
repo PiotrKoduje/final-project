@@ -14,7 +14,7 @@ export class WinesController {
   constructor(private winesService: WinesService) {}
 
   @Get('/')
-  async getAll() {
+  getAll() {
     return this.winesService.getAll();
   }
 
