@@ -2,7 +2,9 @@ import { API_URL } from "../config";
 
 // SELECTORS
 export const getWines = state => state.wines.list;
+export const getCountryWines = state => state.wines.countryList;
 export const getWineRequests = state => state.wines.requests.LOAD_WINES;
+export const getCountryWineRequests = state => state.wines.requests.LOAD_COUNTRY_WINES;
 
 // ACTION NAME CREATOR
 const reducerName = 'wines';
@@ -13,6 +15,7 @@ const END_REQUEST = createActionName('END_REQUEST');
 const ERROR_REQUEST = createActionName('ERROR_REQUEST');
 
 const LOAD_WINES = createActionName('LOAD_WINES');
+const LOAD_COUNTRY_WINES = createActionName('LOAD_COUNTRY_WINES');
 
 // ACTIONS
 export const startRequest = payload => ({ payload, type: START_REQUEST });
@@ -20,12 +23,11 @@ export const endRequest = payload => ({ payload, type: END_REQUEST });
 export const errorRequest = payload => ({ payload, type: ERROR_REQUEST });
 
 export const loadWines = payload => ({ payload, type: LOAD_WINES });
+export const loadCountryWines = payload => ({ payload, type: LOAD_COUNTRY_WINES });
 
 // THUNKS 
 export const loadWinesRequest = () => {
-
   return async dispatch => {
-
     dispatch(startRequest({ name: 'LOAD_WINES'}));
     try {
       const res = await fetch(`${API_URL}/api/wines`);
@@ -40,20 +42,38 @@ export const loadWinesRequest = () => {
   };
 };
 
+export const loadCountryWinesRequest = (country) => {
+  return async dispatch => {
+    dispatch(startRequest({ name: 'LOAD_COUNTRY_WINES'}));
+    try {
+      const res = await fetch(`${API_URL}/api/wines/country/${country}`);
+      if (res.status === 200) {
+        const wines = await res.json();
+        dispatch(loadCountryWines(wines));
+        dispatch(endRequest({ name: 'LOAD_COUNTRY_WINES'}));
+      }
+    } catch (e) {
+      dispatch(errorRequest({ name: 'LOAD_COUNTRY_WINES', error: e.message }));
+    }
+  };
+};
+
 // INITIAL STATE 
 const initialState = {
   list: [],
+  countryList: [],
   requests: {
     LOAD_WINES: { error: null, pending: true, success: false }
   },
 };
-
 
 // REDUCER
 const winesReducer = (statePart = initialState, action) => {
   switch (action.type){
     case LOAD_WINES: 
       return { ...statePart, list: [...action.payload] };
+    case LOAD_COUNTRY_WINES: 
+      return { ...statePart, countryList: [...action.payload] };
     case START_REQUEST:
       return { ...statePart, requests: {...statePart.requests, [action.payload.name]: { pending: true, error: null, success: false }} };
     case END_REQUEST:

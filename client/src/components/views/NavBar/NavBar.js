@@ -64,12 +64,6 @@ const NavBar = () => {
             </li>
 
             <li>
-              <NavLink to="/test" className={({ isActive }) => `block py-2 md:py-0 hover:text-secondary ${ isActive ? ' text-secondary' : ''}`}>
-                Test
-              </NavLink>
-            </li>
-
-            <li>
               <NavLink to="/cart" className={({ isActive }) => `relative block py-2 md:py-0 hover:text-secondary ${isActive ? ' text-secondary' : ''}`}>
                 Koszyk
                 {cartItemsCount > 0 && (
