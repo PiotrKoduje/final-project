@@ -31,7 +31,7 @@ const CountryWines = () => {
     else if (countryName){
       dispatch(loadCountryWinesRequest(countryName))
     }
-  },[dispatch, countryName]);
+  },[dispatch, countryName, navigate]);
 
   // requests.error= null;
   // requests.pending= true;
@@ -44,7 +44,7 @@ const CountryWines = () => {
       { (requests && requests.error) && <Alert type='error' message='Ups... Coś poszło nie tak. Spróbuj później'/> }
       { (requests && requests.success) && wines.map((wine) => (
         <div key={wine.id} className="flex w-full sm:w-[48%] md:w-[31%] lg:w-[23%] min-w-[200px]">
-          <WineSummary {...wine} />
+          <WineSummary { ...wine } />
        </div>
       ))}
     </div>

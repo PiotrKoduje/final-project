@@ -6,5 +6,6 @@ export const whichCountry = (region) => {
     włoskie: 'włochy',
     wszystkie: 'wszystkie'
   }
-    return regionMap[region]
+  
+  return regionMap[region]
 }

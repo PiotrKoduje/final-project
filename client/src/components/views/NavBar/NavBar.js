@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LuWine } from 'react-icons/lu';
+import { LuWine, LuMenu, LuX } from 'react-icons/lu';
 import { useState, useEffect, useRef, useMemo } from 'react';
 
 const NavBar = () => {
@@ -11,7 +11,6 @@ const NavBar = () => {
 
   const countries = useMemo(() => ['WSZYSTKIE','Francuskie', 'Hiszpańskie', 'Portugalskie', 'Włoskie'], []);
 
-  
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (winesMenuRef.current && !winesMenuRef.current.contains(e.target)) {
@@ -31,13 +30,13 @@ const NavBar = () => {
         </div>
 
         <button className="md:hidden text-white focus:outline-none" onClick={() => setIsOpen(!isOpen)}>
-          ☰
+          { isOpen ? (<LuX size={ 28 } />) : (<LuMenu size={ 28 } />) }
         </button>
 
         <div className={`${ isOpen ? 'block' : 'hidden' } w-full md:flex md:items-center md:w-auto mt-3 md:mt-0`}>
           <ul className="md:flex md:space-x-4 text-sm relative">
             <li>
-              <NavLink to="/" className={({ isActive }) => `block py-2 md:py-0 hover:text-secondary ${ isActive ? ' text-secondary' : '' }`}>
+              <NavLink to="/" onClick={() => setIsOpen(false)} className={({ isActive }) => `block py-2 md:py-0 hover:text-secondary ${ isActive ? ' text-secondary' : '' }`}>
                 Home
               </NavLink>
             </li>
@@ -53,7 +52,10 @@ const NavBar = () => {
                     <li key={country}>
                       <NavLink
                         to={ `/wines/country/${country.toLowerCase()}` }
-                        onClick={() => setIsWinesOpen(false)}
+                        onClick={ () => {
+                          setIsWinesOpen(false);
+                          setIsOpen(false);
+                        } }
                         className="block px-4 py-2 hover:bg-secondary hover:text-white rounded-md transition-colors duration-200">
                         { country }
                       </NavLink>
@@ -64,13 +66,17 @@ const NavBar = () => {
             </li>
 
             <li>
-              <NavLink to="/cart" className={({ isActive }) => `relative block py-2 md:py-0 hover:text-secondary ${isActive ? ' text-secondary' : ''}`}>
+              <NavLink 
+                to="/cart" 
+                onClick={ () => setIsOpen(false) } 
+                className={({ isActive }) => `relative block py-2 md:py-0 hover:text-secondary ${isActive ? ' text-secondary' : ''}`}
+              >
                 Koszyk
-                {cartItemsCount > 0 && (
+                { cartItemsCount > 0 && (
                   <span className="absolute -top-0 -left-30 md:-top-4 md:-right-4 bg-red-600 text-white text-xs font-semibold rounded-full px-2 py-0.5">
-                    {cartItemsCount}
+                    { cartItemsCount }
                   </span>
-                )}
+                ) }
               </NavLink>
             </li>
           </ul>

@@ -7,3 +7,37 @@
 body {
   font-family: 'Inter', sans-serif;
 }
+
+.slick-prev::before {
+  color: #7b1e3c;
+  font-size: 30px;
+  position: relative;
+  top: 0px;
+  left: 33px;
+}
+
+.slick-next::before {
+  color: #7b1e3c;
+  font-size: 30px;
+  position: relative;
+  top: 0;
+  right: 33px;
+}
+
+@media (min-width: 768px) {
+  .slick-prev::before {
+    left: -30px;
+  }
+  .slick-next::before {
+    right: -30px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .slick-prev::before {
+    left: -70px;
+  }
+  .slick-next::before {
+    right: -70px;
+  }
+}

@@ -7,7 +7,7 @@ const Alert = ({ type, message }) => {
   };
 
   return (
-    <div className={`border px-4 py-3 mt-10 rounded ${typeClasses[type]}`}>
+    <div className={`border px-4 py-3 mt-10 rounded ${ typeClasses[type] }`}>
       {message}
     </div>
   );
