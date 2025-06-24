@@ -1,13 +1,16 @@
 import { NavLink } from 'react-router-dom';
 import { LuWine, LuMenu, LuX } from 'react-icons/lu';
 import { useState, useEffect, useRef, useMemo } from 'react';
+import { useSelector } from "react-redux";
+import { getOrderItems } from '../../../redux/orderRedux';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isWinesOpen, setIsWinesOpen] = useState(false);
   const winesMenuRef = useRef(null);
 
-  const cartItemsCount = 2;
+  const orderItems = useSelector(getOrderItems);
+  const cartItemsCount = orderItems.length;
 
   const countries = useMemo(() => ['WSZYSTKIE','Francuskie', 'Hiszpańskie', 'Portugalskie', 'Włoskie'], []);
 

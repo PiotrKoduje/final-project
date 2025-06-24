@@ -3,26 +3,45 @@ import { useState } from 'react';
 import ReadMore from '../ReadMore/ReadMore';
 import InfoDetails from '../InfoDetails/InfoDetails';
 import Carusel from '../Carousel/Carousel';
+import { useDispatch } from "react-redux";
+import { addItem } from '../../../redux/orderRedux';
+import { v4 as uuidv4 } from 'uuid';
+import { Link } from 'react-router-dom';
+import AmountWidget from '../AmountWidget/AmountWidget';
 
-const WineDetail = ({ name, description, country, color, style, grapeVariety, region, volume, alkohol, vintage, price, photos }) => {
+const WineDetail = ({ id, name, description, country, color, style, grapeVariety, region, volume, alkohol, vintage, price, photos }) => {
+  
+  const imageList = photos.split(',').map(p => `${API_URL}/public/uploads/photos/${p.trim()}`);
+  const dispatch = useDispatch();
+
+  // LOCAL STATE 
   const [quantity, setQuantity] = useState(1);
   const [packAsGift, setPackAsGift] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const handleAddToCart = () => {};
+
+  // HANDLERS 
+  const handleAddItemToCart = () => {
+    const payload = {
+      itemId: uuidv4(),
+      wineId: id,
+      name,
+      price,
+      quantity,
+      packAsGift,
+      infoFromClient: 'brak'
+    };
+    dispatch(addItem(payload));
+    setShowModal(true);
+  };
 
   const handleGiftChange = () => {
     setPackAsGift(prev => !prev);
   };
 
-  const increment = () => {
-    setQuantity(prev => Math.min(10, prev + 1));
+  const handleQuantityChange = delta => {
+    setQuantity(quantity + delta);
   };
-
-  const decrement = () => {
-    setQuantity(prev => Math.max(0, prev - 1));
-  };
-
-  const imageList = photos.split(',').map(p => `${API_URL}/public/uploads/photos/${p.trim()}`);
 
   return (
     <div className="bg-surface text-text p-6 md:p-20 rounded-lg shadow-sm max-w-5xl mx-auto mt-6 ">
@@ -44,7 +63,8 @@ const WineDetail = ({ name, description, country, color, style, grapeVariety, re
 
       <ReadMore text={description}/>
     
-      <div className="mt-4 flex items-center gap-2" relative>
+      {/* PACK AS GIFT  */}
+      <div className="mt-4 flex items-center gap-2 re" >
         <input
           type="checkbox"
           id="gift"
@@ -61,23 +81,46 @@ const WineDetail = ({ name, description, country, color, style, grapeVariety, re
         </div>
       </div>
 
-      <div className="mt-8 flex flex-col sm:flex-row items-center gap-x-20 gap-y-4">
+
+      {/* EDIT ITEM  */}
+      <div className="mt-8 flex flex-col  items-center gap-x-20 gap-y-4">
         <span className="text-2xl font-bold text-primary">{ (price + (packAsGift ? 25 : 0)) * quantity } zł</span>
 
-        <div className="flex items-center gap-2">
-          <button onClick = { decrement } className="px-3 py-1 bg-accent text-white rounded hover:bg-text disabled:opacity-40" disabled={ quantity <= 1 }>
-            -
-          </button>
-          <span className="min-w-[2rem] text-center">{quantity}</span>
-          <button onClick = { increment } className="px-3 py-1 bg-accent text-white rounded hover:bg-text disabled:opacity-40" disabled={ quantity >= 10 }>
-            +
-          </button>
-        </div>
+        <AmountWidget
+          quantity={quantity}
+          onChange={(delta) => handleQuantityChange(delta)}
+        />
 
-        <button onClick = { handleAddToCart } className="bg-secondary hover:bg-[#c39e2f] text-white font-semibold px-4 py-2 rounded transition">
+        <button onClick = { handleAddItemToCart } className="bg-secondary hover:bg-[#c39e2f] text-white font-semibold px-4 py-2 rounded transition">
           Dodaj do koszyka
         </button>
       </div>
+
+      {/* MODAL */}
+      {showModal && (
+      <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+        <div className="bg-surface rounded-lg shadow-lg p-6 max-w-sm text-center">
+          <p className="text-primary font-semibold text-lg mb-4">
+            Produkt dodany do koszyka!
+          </p>
+          <div className="flex justify-center gap-4 mt-4">
+            <Link 
+              to="/" 
+              onClick={() => setShowModal(false)}
+              className="bg-primary hover:bg-[#5f172e] text-white px-4 py-2 rounded"
+            >
+              Kontynuuj zakupy
+            </Link>
+            <Link
+              to="/cart"
+              className="bg-secondary hover:bg-[#c39e2f] text-white px-4 py-2 rounded"
+            >
+              Przejdź do koszyka
+            </Link>
+          </div>
+        </div>
+      </div>
+      )}
     </div>
   );
 };

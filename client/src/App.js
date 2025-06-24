@@ -6,7 +6,6 @@ import Cart from './components/pages/Cart/Cart';
 import CountryWines from './components/pages/CountryWines/CountryWines';
 import Wine from './components/pages/Wine/Wine';
 
-
 function App() {
   return (
       <div className="max-w-screen-xl mx-auto px-4">

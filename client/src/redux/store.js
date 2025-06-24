@@ -1,9 +1,11 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import winesReducer from "./winesRedux";
 import { thunk } from "redux-thunk";
+import orderReducer from "./orderRedux";
 
 const subreducers = {
-  wines: winesReducer
+  wines: winesReducer,
+  order: orderReducer
 };
 
 const reducer = combineReducers(subreducers);

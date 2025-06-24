@@ -37,7 +37,7 @@ const Carusel = ({ images = [] }) => {
               <img
                 src={src}
                 alt={`Zdjęcie ${ index + 1 }`}
-                className="w-full h-[400px] md:h-[600px] lg:h-[700px] object-contain rounded"
+                className="w-full h-[300px] md:h-[400px] object-contain rounded"
               />
             </div>
           ))

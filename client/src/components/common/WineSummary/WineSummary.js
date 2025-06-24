@@ -12,8 +12,8 @@ const WineSummary = ({ id, name, photos, price }) => {
         alt={ name }
         className="w-full h-64 object-contain bg-white p-2 mb-4 rounded"
       />
-      <h3 className="text-text xs:text-base lg:text-lg font-semibold mb-2">{ name }</h3>
-      <p className="text-primary xs:text-base lg:text-lg font-bold mt-auto">{ price } zł</p>
+      <h3 className="text-text text-center xs:text-base lg:text-lg font-semibold mb-2">{ name }</h3>
+      <p className="text-primary text-center xs:text-base lg:text-lg font-bold mt-auto">{ price } zł</p>
     </Link>
   );
 };
