@@ -29,7 +29,7 @@ const WineDetail = ({ id, name, description, country, color, style, grapeVariety
       price,
       quantity,
       packAsGift,
-      infoFromClient: 'brak'
+      infoFromClient: ''
     };
     dispatch(addItem(payload));
     setShowModal(true);

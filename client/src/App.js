@@ -5,6 +5,7 @@ import Header from './components/views/Header/Header';
 import Cart from './components/pages/Cart/Cart';
 import CountryWines from './components/pages/CountryWines/CountryWines';
 import Wine from './components/pages/Wine/Wine';
+import Summary from './components/pages/Summary/Summary';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/wines/:id" element={ <Wine /> } />
         <Route path="/wines/country/:country" element={ <CountryWines /> } />
         <Route path="/cart" element={ <Cart /> } />
+        <Route path="/summary" element={ <Summary /> } />
       </Routes>
       <Footer />
     </div>

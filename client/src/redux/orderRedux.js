@@ -15,9 +15,9 @@ const UPDATE_INFO_FROM_CLIENT = createActionName('UPDATE_INFO_FROM_CLIENT');
 const CLEAR_ORDER = createActionName('CLEAR_ORDER');
 
 // ACTIONS
-export const addItem = payload => ({ type: ADD_ITEM, payload }); // payload: { wineId, quantity, packAsGift, infoFromClient }
-export const removeItem = payload => ({ type: REMOVE_ITEM, payload }); // payload: wineId
-export const setCustomerData = payload => ({ type: SET_CUSTOMER_DATA, payload }); // payload: { name, address, phone, email }
+export const addItem = payload => ({ type: ADD_ITEM, payload });
+export const removeItem = payload => ({ type: REMOVE_ITEM, payload }); 
+export const setCustomerData = payload => ({ type: SET_CUSTOMER_DATA, payload }); // 
 export const updateItemQuantity = (payload) => ({ type: UPDATE_ITEM_QUANTITY, payload });
 export const updateInfoFromClient = (payload) => ({ type: UPDATE_INFO_FROM_CLIENT, payload });
 export const clearOrder = () => ({ type: CLEAR_ORDER });

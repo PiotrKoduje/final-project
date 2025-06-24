@@ -25,7 +25,7 @@ const Cart = () => {
     dispatch(updateInfoFromClient({ itemId, infoFromClient: newNote }));
   };
 
-  const handleRemove = (itemId) => {
+  const handleRemove = itemId => {
     dispatch(removeItem(itemId));
   };
 
@@ -73,7 +73,7 @@ const Cart = () => {
               <p className="text-sm mt-1">
                 Opakowanie na prezent:{" "}
                 <span className={item.packAsGift ? "font-bold text-secondary" : "text-muted"}>
-                  {item.packAsGift ? "Tak (+25 zł/szt.)" : "Nie"}
+                  {item.packAsGift ? `Tak (+ ${GIFT_PACK_COST}  zł/szt.)` : "Nie"}
                 </span>
               </p>
 
@@ -119,11 +119,18 @@ const Cart = () => {
         </p>
       </div>
 
+      {/* NAVIGATION  */}
       <div className="mt-8 flex flex-col xs:flex-row justify-between">
-        <Link to="/" className="bg-primary text-white px-6 py-3 rounded hover:bg-[#5f172e] transition">
-        Kontynuuj zakupy
+        <Link 
+          to="/" 
+          className="bg-primary text-white text-center px-6 py-3 rounded hover:bg-[#5f172e] transition"
+        >
+          Kontynuuj zakupy
         </Link>
-        <Link to="/summary" className="bg-secondary text-white px-6 py-3 rounded hover:bg-[#b88f21] transition">
+        <Link 
+          to="/summary" 
+          className="bg-secondary text-white text-center px-6 py-3 rounded hover:bg-[#b88f21] transition"
+        >
           Przejdź do podsumowania
         </Link>
       </div>
