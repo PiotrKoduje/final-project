@@ -24,7 +24,7 @@ const ScrollToTop = () => {
       onClick={scrollToTop}
       className="
         group fixed 
-        right-8 bottom-8 sm:right-14 sm:bottom-14 2xl:right-32 2xl:bottom-32
+        right-8 bottom-8 sm:right-14 sm:bottom-14 2xl:right-26 2xl:bottom-26 3xl:right-[150px]
         font-bold text-muted border-2 border-muted p-3 rounded-full hover:border-secondary hover:text-secondary transition"
     >
       <LuChevronUp className="w-6 h-6 transition-transform duration-500 group-hover:-translate-y-2" />

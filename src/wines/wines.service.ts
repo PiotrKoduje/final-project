@@ -19,7 +19,8 @@ export class WinesService {
         price: true,
       }
     });
-     
+    
+    console.log('Wines from DB:', wines);
     return selectOnlyFirstPhoto(wines);
   }
 
