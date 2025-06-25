@@ -20,7 +20,6 @@ export class WinesService {
       }
     });
     
-    console.log('Wines from DB:', wines);
     return selectOnlyFirstPhoto(wines);
   }
 

@@ -37,7 +37,6 @@ let WinesService = class WinesService {
                     price: true,
                 }
             });
-            console.log('Wines from DB:', wines);
             return (0, selectOnlyFirstPhoto_1.selectOnlyFirstPhoto)(wines);
         });
     }
