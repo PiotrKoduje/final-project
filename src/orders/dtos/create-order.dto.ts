@@ -26,7 +26,8 @@ export class CreateOrderDTO {
   @Length(3, 80)
   address: string;
 
-  @IsPhoneNumber()
+  @IsString()
+  @IsNotEmpty()
   phone: string;
 
   @IsNotEmpty()

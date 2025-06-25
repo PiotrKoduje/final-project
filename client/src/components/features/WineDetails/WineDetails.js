@@ -8,6 +8,7 @@ import { addItem } from '../../../redux/orderRedux';
 import { v4 as uuidv4 } from 'uuid';
 import { Link } from 'react-router-dom';
 import AmountWidget from '../AmountWidget/AmountWidget';
+import ScrollToTop from '../ScrollToTop/ScrollToTop';
 
 const WineDetail = ({ id, name, description, country, color, style, grapeVariety, region, volume, alkohol, vintage, price, photos }) => {
   
@@ -61,7 +62,7 @@ const WineDetail = ({ id, name, description, country, color, style, grapeVariety
       >
       </InfoDetails>
 
-      <ReadMore text={description}/>
+      {/* xxx */}
     
       {/* PACK AS GIFT  */}
       <div className="mt-4 flex items-center gap-2 re" >
@@ -70,9 +71,9 @@ const WineDetail = ({ id, name, description, country, color, style, grapeVariety
           id="gift"
           checked={ packAsGift }
           onChange={ handleGiftChange }
-          className="w-5 h-5 text-primary accent-primary"
+          className="w-5 h-5 text-primary accent-primary cursor-pointer"
         />
-        <label htmlFor="gift" className="text-sm text-text">
+        <label htmlFor="gift" className="text-sm text-text cursor-pointer">
           Zapakuj na prezent  <span className={`tracking-[2px] text-primary whitespace-nowrap ${ packAsGift ? 'font-bold' : '' }`}> ( +25zł/szt. )</span> 
         </label>
 
@@ -94,6 +95,9 @@ const WineDetail = ({ id, name, description, country, color, style, grapeVariety
         <button onClick = { handleAddItemToCart } className="bg-secondary hover:bg-[#c39e2f] text-white font-semibold px-4 py-2 rounded transition">
           Dodaj do koszyka
         </button>
+
+        <ReadMore text={description}/>
+        <ScrollToTop />
       </div>
 
       {/* MODAL */}

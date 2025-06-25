@@ -6,6 +6,7 @@ import WineSummary from "../../common/WineSummary/WineSummary";
 import Spinner from "../../common/Spinner/Spinner";
 import Alert from "../../common/Alert/Alert";
 import { whichCountry } from "../../../utils/whichCountry";
+import ScrollToTop from "../../features/ScrollToTop/ScrollToTop";
 
 const CountryWines = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ const CountryWines = () => {
           <WineSummary { ...wine } />
        </div>
       ))}
+      <ScrollToTop />
     </div>
   )
 }

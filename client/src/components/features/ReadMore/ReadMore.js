@@ -11,13 +11,13 @@ const ReadMore = ({ text }) => {
   }
 
   return (
-    <div className="my-10">
+    <div className="my-10 border border-muted rounded p-4">
       <p className="xs:text-sm lg:text-base leading-normal">
         { expanded ? text : text.slice(0, 250) + '...' }
       </p>
       <button 
         onClick={ toggleExpanded } 
-        className="mt-1 ml-5 border border-transparent text-primary font-semibold px-3 py-1 rounded transition-all duration-200 hover:border-secondary hover:text-secondary">
+        className="mt-2 block mx-auto border border-transparent text-muted font-semibold px-3 py-1 rounded transition-all duration-200 hover:border-secondary hover:text-secondary">
         { expanded ? (
           <>
            <LuChevronUp className="w-6 h-6 translate-x-5" /> Schowaj

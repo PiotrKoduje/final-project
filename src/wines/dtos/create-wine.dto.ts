@@ -12,12 +12,12 @@ import { currentYear } from 'src/utils/currentYear';
 export class CreateWineDTO {
   @IsNotEmpty()
   @IsString()
-  @Length(3, 50)
+  @Length(3, 70)
   name: string;
 
   @IsNotEmpty()
   @IsString()
-  @Length(10, 1000)
+  @Length(10, 1200)
   description: string;
 
   @IsNotEmpty()

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getOrderItems, getCustomerData, setCustomerData } from "../../../redux/orderRedux";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "../../common/Alert/Alert";
+import ScrollToTop from "../../features/ScrollToTop/ScrollToTop";
 
 // CONSTANS 
 const SHIPPING_COST = 30;
@@ -25,7 +26,8 @@ const Summary = () => {
     address: "",
   });
 
-  const [completeForm, setcompleteForm] = useState(false);
+  const [completeForm, setcompleteForm] = useState(false); // todo formValidation!
+  const [anyItems, setAnyItems] = useState(false);
 
 // UPDATE CLIENT FORM 
   const handleChange = e => {
@@ -33,18 +35,19 @@ const Summary = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const checkForm = useCallback(() => {
-    const isValid = formData.name && formData.email && formData.phone && formData.address;
-    isValid ? setcompleteForm(true) : setcompleteForm(false);
-  }, [formData]);
+  const checkFormAndOrders = useCallback(() => {
+    const formValid = formData.name && formData.email && formData.phone && formData.address;
+    formValid ? setcompleteForm(true) : setcompleteForm(false);
+    orderItems.length > 0 ? setAnyItems(true) : setAnyItems(false);
+  }, [formData, orderItems]);
 
   useEffect(() => {
     dispatch(setCustomerData(formData));
-    checkForm();
-  }, [formData, dispatch, checkForm]);
+    checkFormAndOrders();
+  }, [formData, dispatch, checkFormAndOrders]);
 
   const handleContinue = () => {
-    if (completeForm) navigate('/order');
+    if (completeForm && orderItems.length > 0) navigate('/order');
   }
 
   // CALCULATIONS 
@@ -59,7 +62,7 @@ const Summary = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-surface rounded shadow-sm">
-      <h2 className="text-2xl font-semibold text-primary mb-6">Podsumowanie zamówienia</h2>
+      <h2 className="text-2xl font-semibold mb-6 text-primary text-center">Podsumowanie zamówienia</h2>
 
       {/* ITEMS LIST */}
       <ul className="mb-8">
@@ -80,6 +83,8 @@ const Summary = () => {
           </li>
         ))}
       </ul>
+
+      { !anyItems && <Alert type='warning' message='Brak produktów'/> }
 
       {/* CLIENT FORM*/}
       <div className="space-y-4 mb-8">
@@ -155,6 +160,7 @@ const Summary = () => {
           Przejdź dalej
         </button>
       </div>
+      <ScrollToTop />
     </div>
   );
 };

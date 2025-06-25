@@ -91,22 +91,68 @@ const initialState = {
 
 // REDUCER
 const winesReducer = (statePart = initialState, action) => {
-  switch (action.type){
-    case LOAD_WINES: 
-      return { ...statePart, list: [...action.payload] };
-    case LOAD_WINE: 
-      return { ...statePart, visitedList: [ ...statePart.visitedList, action.payload] };
-    case LOAD_COUNTRY_WINES: 
-      return { ...statePart, countryList: [...action.payload] };
+  switch (action.type) {
+    case LOAD_WINES:
+      return {
+        ...statePart,
+        list: [...action.payload],
+      };
+
+    case LOAD_WINE:
+      return {
+        ...statePart,
+        visitedList: [...statePart.visitedList, action.payload],
+      };
+
+    case LOAD_COUNTRY_WINES:
+      return {
+        ...statePart,
+        countryList: [...action.payload],
+      };
+
     case START_REQUEST:
-      return { ...statePart, requests: {...statePart.requests, [action.payload.name]: { pending: true, error: null, success: false }} };
+      return {
+        ...statePart,
+        requests: {
+          ...statePart.requests,
+          [action.payload.name]: {
+            pending: true,
+            error: null,
+            success: false,
+          },
+        },
+      };
+
     case END_REQUEST:
-      return { ...statePart, requests: { ...statePart.requests, [action.payload.name]: { pending: false, error: null, success: true }} };
+      return {
+        ...statePart,
+        requests: {
+          ...statePart.requests,
+          [action.payload.name]: {
+            pending: false,
+            error: null,
+            success: true,
+          },
+        },
+      };
+
     case ERROR_REQUEST:
-      return { ...statePart, requests: { ...statePart.requests, [action.payload.name]: { pending: false, error: action.payload.error, success: false }} };
+      return {
+        ...statePart,
+        requests: {
+          ...statePart.requests,
+          [action.payload.name]: {
+            pending: false,
+            error: action.payload.error,
+            success: false,
+          },
+        },
+      };
+
     default:
       return statePart;
   }
-}
+};
+
 
 export default winesReducer;

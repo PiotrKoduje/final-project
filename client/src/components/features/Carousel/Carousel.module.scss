@@ -16,17 +16,7 @@
   margin: 0 8px;
 }
 
-.customDots li button {
-  padding: 0;
-}
-
 .customDots li img {
-  display: block;
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 4px;
-  cursor: pointer;
   opacity: 0.6;
   transition: 1s;
 }
@@ -37,6 +27,4 @@
   transition: transform 0.3s ease;
 }
 
-.slick-next::before :global{
-  background-color: red;
-}
+

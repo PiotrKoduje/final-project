@@ -6,6 +6,7 @@ import Cart from './components/pages/Cart/Cart';
 import CountryWines from './components/pages/CountryWines/CountryWines';
 import Wine from './components/pages/Wine/Wine';
 import Summary from './components/pages/Summary/Summary';
+import Order from './components/pages/Order/Order';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/wines/country/:country" element={ <CountryWines /> } />
         <Route path="/cart" element={ <Cart /> } />
         <Route path="/summary" element={ <Summary /> } />
+        <Route path="/order" element={ <Order /> } />
       </Routes>
       <Footer />
     </div>

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getOrderItems, removeItem, updateItemQuantity, updateInfoFromClient } from "../../../redux/orderRedux";
 import AmountWidget from "../../features/AmountWidget/AmountWidget";
 import { Link } from "react-router-dom";
+import ScrollToTop from "../../features/ScrollToTop/ScrollToTop";
 
 // CONSTANS 
 const SHIPPING_COST = 30;
@@ -44,8 +45,10 @@ const Cart = () => {
   if (!orderItems.length) {
     return (
       <div className="max-w-4xl mx-auto p-8 text-center text-muted">
-        Twój koszyk jest pusty.{" "}
-        <Link to="/" className="text-primary">
+        <p className="p-8">Twój koszyk jest pusty.</p>
+        <Link to="/" 
+          className="bg-primary text-white text-center px-6 py-3 rounded hover:bg-[#5f172e] transition"
+        >
           Wróć do zakupów
         </Link>
       </div>
@@ -134,6 +137,7 @@ const Cart = () => {
           Przejdź do podsumowania
         </Link>
       </div>
+      <ScrollToTop />
     </div>
   );
 };

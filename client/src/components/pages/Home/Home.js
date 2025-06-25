@@ -4,6 +4,8 @@ import { loadWinesRequest, getWines, getWinesRequests } from "../../../redux/win
 import WineSummary from "../../common/WineSummary/WineSummary";
 import Spinner from "../../common/Spinner/Spinner";
 import Alert from "../../common/Alert/Alert";
+import ScrollToTop from "../../features/ScrollToTop/ScrollToTop";
+
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -31,6 +33,7 @@ const Home = () => {
           <WineSummary { ...wine } />
         </div>
       ))}
+      <ScrollToTop />
     </div>
   )
 };

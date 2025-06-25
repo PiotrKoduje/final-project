@@ -52,7 +52,7 @@ export class WinesController {
         },
       }),
       limits: {
-        fileSize: 300 * 1024
+        fileSize: 500 * 1024
       },
     }),
   )
